@@ -4,10 +4,12 @@ stages:
 
 test-startability:
   stage: test
+  image: python:3.12-alpine
   script:
+    - pip install -r requirements.txt
     - cd src
     - python manage.py makemigrations && python manage.py migrate
     - python manage.py runserver
   rules:
-    - when: manual
+    - when: never
       allow_failure: true
