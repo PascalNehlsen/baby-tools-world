@@ -1,0 +1,13 @@
+stages:
+  - test
+
+
+test-startability:
+  stage: test
+  script:
+    - cd src
+    - python manage.py makemigrations && python manage.py migrate
+    - python manage.py runserver
+  rules:
+    - when: never
+      allow_failure: true
