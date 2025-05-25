@@ -11,5 +11,5 @@ test-startability:
     - python manage.py makemigrations && python manage.py migrate
     - python manage.py runserver
   rules:
-    - when: never
+    - when: manual
       allow_failure: true
