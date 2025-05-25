@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=50, null=True)
-    description = models.TextField(max_length=200, null=True)
+    description = models.TextField(max_length=200, null=True, blank=True)
     slug = models.SlugField(max_length=50, unique=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -12,12 +12,16 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = 'Categories'
+
 
 class Product(models.Model):
 
     category = models.ForeignKey(Category, null=True, on_delete=models.DO_NOTHING)
-    description = models.TextField()
-    image = models.ImageField(upload_to="products/")
+    description = models.TextField(max_length=250, null=True, blank=True)
+    image = models.ImageField(upload_to="products/", null=True, blank=True)
     name = models.CharField(max_length=80)
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
