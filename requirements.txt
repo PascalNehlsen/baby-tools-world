@@ -5,3 +5,4 @@ packaging==25.0
 pillow==11.2.1
 setuptools==80.8.0
 sqlparse==0.5.3
+python-dotenv==1.1.0
