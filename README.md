@@ -56,10 +56,12 @@ In this section you can read about the project a bit more in detail.
 
 To configure the project, follow these steps:
 
-1. Copy the example environment file: `cp example.env .env`.
-2. Open `.env` and set the required environment variables:
-    - `ALLOWED_HOSTS`: provide a list of comma-separated values for the allowed host configuration
-    - `DEBUG`: Set to `True` for development or `False` for production.
+1. Copy the example environment file to the `src` directory: `cp example.env src/.env`.
+    - the file needs to be stored next to the manage.py file in order to function properly. 
+    Other locations might also work but there is no guarantuee, and in last consequence you will need to update to project correspondingly.
+2. Open your `src/.env` and set the required environment variables:
+    - `ALLOWED_HOSTS`: provide a list of comma-separated values for the allowed host configuration => Defaults to `'localhost, 127.0.0.1, 0.0.0.0'`
+    - `DEBUG`: Set to `True` for development or `False` for production. Defaults to `True`
 
 ### Running with Gunicorn
 
