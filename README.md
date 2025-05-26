@@ -63,7 +63,23 @@ To configure the project, follow these steps:
     - `ALLOWED_HOSTS`: provide a list of comma-separated values for the allowed host configuration => Defaults to `'localhost, 127.0.0.1, 0.0.0.0'`
     - `DEBUG`: Set to `True` for development or `False` for production. Defaults to `True`
 
-### Running with Gunicorn
+### Running with a WSGI Server
+
+**WSGI** (Web Server Gateway Interface) is a specification that defines a standard interface between web servers and Python web applications or frameworks.
+It acts as a bridge, allowing web servers to communicate with Python applications in a consistent manner.
+
+In Django deployments, WSGI is used to serve the application in a production environment. 
+It enables the web server (e.g., Gunicorn, uWSGI, or Apache with mod_wsgi) to forward 
+requests to the Django application and return responses to the client. This ensures that 
+the application can handle HTTP requests efficiently and reliably in a scalable setup.
+
+> `gunicorn` and `waitress` are similar tools and can be used for the same purpose,
+> but sometimes running `gunicorn` on windows results in problems that can be circumvented by using `waitress` instead.
+>
+> See the following [quote](https://docs.gunicorn.org/en/stable/index.html) from the official gunicorn website:
+>> Gunicorn ‘Green Unicorn’ is a Python WSGI HTTP Server for UNIX.
+
+#### Running with Gunicorn
 
 Gunicorn is a Python WSGI HTTP server that can be used to serve the application in a production-like environment.
 
@@ -82,3 +98,29 @@ Gunicorn is a Python WSGI HTTP server that can be used to serve the application 
     Visit `http://localhost:8000` to ensure the application is running with Gunicorn.
 
 By using Gunicorn, you can serve the application efficiently in a production-like setup.
+
+#### Waitress
+
+Waitress is a production-quality WSGI server for Python applications, designed to be simple and robust.
+
+1. **Install Waitress**:
+    If not already installed, first install Waitress using pip:
+    ```bash
+    pip install waitress
+    ```
+
+2. **Run the Application**:
+    Use the following command to start the application with `waitress`:
+    ```bash
+    waitress-serve --port=8000 baby_tool_world.wsgi:application
+    ```
+
+3. **Configuration Options**:
+    You can customize Waitress with additional options, such as:
+    - `--host`: Specify the host to bind to (e.g., `--host=0.0.0.0`).
+    - `--threads`: Set the number of threads to use (e.g., `--threads=4`).
+
+4. **Verify the Application**:
+    Visit `http://localhost:8000` to ensure the application is running with Waitress.
+
+Waitress provides a lightweight and reliable option for serving your Django application in production.
