@@ -11,11 +11,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -24,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mnp$i)1zfiga%tre=iv5b97+t$7zji57d$#t4rk_#1@#*^mi9b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = os.getenv('DEBUG', 'true') == 'true'
+host_list = os.getenv('ALLOWED_HOSTS', 'localhost, 127.0.0.1, 0.0.0.0')
+ALLOWED_HOSTS = [x.strip() for x in host_list.split(',')]
 
 
 # Application definition
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'btw_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

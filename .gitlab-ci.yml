@@ -1,13 +1,32 @@
+default:
+  interruptible: true
+  image: python:3.12-alpine
+  before_script:
+    - pip install -r requirements.txt
+
 stages:
   - test
 
+variables:
+  WORKFLOW_NAME: "Default CI/CD Pipeline"
+
+# Workflow rules to determine when to create what type of pipeline
+workflow:
+  name: "${WORKFLOW_NAME}"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      variables:
+        WORKFLOW_NAME: "Merge-Request Pipeline"
+    - if: $CI_COMMIT_TAG
+      variables:
+        WORKFLOW_NAME: "Running Tag-Pipeline"
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+      variables:
+        WORKFLOW_NAME: 'Running Branch-Pipeline for "${CI_COMMIT_BRANCH}"'
 
 test-startability:
   stage: test
+  image: python:3.12-alpine
   script:
     - cd src
-    - python manage.py makemigrations && python manage.py migrate
-    - python manage.py runserver
-  rules:
-    - when: never
-      allow_failure: true
+    - python manage.py test
