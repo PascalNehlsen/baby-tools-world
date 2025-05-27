@@ -29,8 +29,4 @@ test-startability:
   image: python:3.12-alpine
   script:
     - cd src
-    - python manage.py makemigrations && python manage.py migrate
-    - python manage.py runserver
-  rules:
-    - when: manual
-      allow_failure: true
+    - python manage.py test
