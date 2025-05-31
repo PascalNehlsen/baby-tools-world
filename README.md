@@ -124,3 +124,9 @@ Waitress is a production-quality WSGI server for Python applications, designed t
     Visit `http://localhost:8000` to ensure the application is running with Waitress.
 
 Waitress provides a lightweight and reliable option for serving your Django application in production.
+
+### Seeding the application with data
+
+This section will guide you through the process of providing an initial seed to the application.
+
+To initially seed the application you can run the management command `seed_db` to fill the database with some categories and testing products.
