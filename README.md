@@ -130,3 +130,9 @@ Waitress provides a lightweight and reliable option for serving your Django appl
 This section will guide you through the process of providing an initial seed to the application.
 
 To initially seed the application you can run the management command `seed_db` to fill the database with some categories and testing products.
+
+In order to run that comand go the the directory, where your `manage.py` file is stored and run the following command:
+
+```bash
+python manage.py seed_db
+```
