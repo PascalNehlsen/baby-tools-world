@@ -86,7 +86,7 @@ Gunicorn is a Python WSGI HTTP server that can be used to serve the application 
 1. **Run the Application**:
     Use the following command to start the application with Gunicorn:
     ```bash
-    gunicorn --bind 0.0.0.0:8000 baby_tool_world.wsgi:application
+    gunicorn --bind 0.0.0.0:8000 btw_app.wsgi:application
     ```
 
 2. **Configuration Options**:
@@ -112,7 +112,7 @@ Waitress is a production-quality WSGI server for Python applications, designed t
 2. **Run the Application**:
     Use the following command to start the application with `waitress`:
     ```bash
-    waitress-serve --port=8000 baby_tool_world.wsgi:application
+    waitress-serve --port=8000 btw_app.wsgi:application
     ```
 
 3. **Configuration Options**:

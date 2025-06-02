@@ -1,8 +1,12 @@
 asgiref==3.8.1
 Django==5.2.1
 gunicorn==23.0.0
+# uncomment the following line if
+# you want to use waitress over gunicorn
+# waitress==3.0.2
 packaging==25.0
 pillow==11.2.1
 setuptools==80.8.0
 sqlparse==0.5.3
 python-dotenv==1.1.0
+whitenoise==6.9.0
