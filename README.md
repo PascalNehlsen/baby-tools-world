@@ -63,6 +63,21 @@ To configure the project, follow these steps:
     - `ALLOWED_HOSTS`: provide a list of comma-separated values for the allowed host configuration => Defaults to `'localhost, 127.0.0.1, 0.0.0.0'`
     - `DEBUG`: Set to `True` for development or `False` for production. Defaults to `True`
 
+### Running tests
+
+To run the tests with the `django testrunner` you can use the following command:
+
+- `python manage.py test`, you need to run this in the folder where `manage.py` lives -> `src`
+
+**Full command example**
+
+This example assumes you have activated your virtual env and already have installed the project dependencies, see [here](#quickstart)
+
+```bash
+cd src
+python manage.py test
+```
+
 ### Running with a WSGI Server
 
 **WSGI** (Web Server Gateway Interface) is a specification that defines a standard interface between web servers and Python web applications or frameworks.
