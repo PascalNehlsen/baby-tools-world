@@ -63,6 +63,16 @@
   </nav>
   {% block content %}
   {% endblock %}
+  <div id="footer" class="text-center" style="margin-bottom: 2rem;">
+    <hr/>
+    {% block footer %}
+        BabyToolsWorld &nbsp;
+        &copy; Copyright 2025 by &nbsp;
+        {% block author %}
+            {{ author | default:"YOU" }}
+        {% endblock %}
+    {% endblock %}
+  </div>
 </body>
 
 </html>
