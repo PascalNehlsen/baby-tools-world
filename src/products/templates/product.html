@@ -48,7 +48,9 @@
       <p class="card-text">
         {{product.description | truncatechars:80}}
       </p>
-      <a href="{% url 'product_detail' product.category.slug product.id %}" class="btn btn-primary" style="align-self: end;">
+    </div>
+    <div class="card-footer text-muted text-center">
+      <a href="{% url 'product_detail' product.category.slug product.id %}" class="btn btn-primary">
         See Details
       </a>
     </div>

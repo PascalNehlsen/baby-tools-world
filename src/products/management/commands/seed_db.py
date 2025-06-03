@@ -3,26 +3,10 @@ from django.core.management.base import BaseCommand
 from products.models import Category, Product
 
 categories_list = [
-    (
-        "boys",
-        "",
-        "boys"
-    ),
-    (
-        "girls",
-        "",
-        "girls"
-    ),
-    (
-        "toys",
-        "",
-        "toys"
-    ),
-    (
-        "outdoor",
-        "",
-        "outdoor"
-    )
+    ("boys", "", "boys"),
+    ("girls", "", "girls"),
+    ("toys", "", "toys"),
+    ("outdoor", "", "outdoor")
 ]
 products = [
     {
@@ -210,7 +194,8 @@ class Command(BaseCommand):
                 )
 
             self.stdout.write(
-                self.style.SUCCESS(f"{created_products} Products created successfully.")
+                self.style.SUCCESS(
+                    f"{created_products} Products created successfully.")
             )
 
         except Exception as err:
