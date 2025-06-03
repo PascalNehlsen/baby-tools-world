@@ -20,7 +20,8 @@
     </div>
     <div class="col-auto d-none d-lg-block">
       {% if product.image %}
-      <img src="{{product.image.url}}" width="400" height="400" alt="" />
+      {% load static %}
+      <img src="{% static product.image %}" width="400" height="400" alt="" />
       {% else %}
       <img src="https://placehold.co/400x400" width="400" height="400" alt="" />
       {% endif %}
@@ -31,14 +32,14 @@
   {% for product in products %}
   <div class="card" style="width: 18rem;">
     {% if product.image %}
-    <img src="{{ product.image.url }}" class="card-img-top" width="300" height="230">
+    <img src="{% static product.image %}" class="card-img-top" width="300" height="230">
     {% else %}
     <img src="https://placehold.co/300x200" class="card-img-top" width="300" height="230">
     {% endif %}
     <div class="card-body">
       <h5 class="card-title">
-        <a href="{% url 'product_detail' product.category.slug product.id %}">
-          {{product.name}}
+        <a href="{% url 'product_detail' product.category.slug product.id %}"  title="{{ product.name }}">
+          {{ product.name | truncatechars:20 }}
         </a>
       </h5>
       <div class="mb-1 text-muted">
@@ -47,6 +48,8 @@
       <p class="card-text">
         {{product.description | truncatechars:80}}
       </p>
+    </div>
+    <div class="card-footer text-muted text-center">
       <a href="{% url 'product_detail' product.category.slug product.id %}" class="btn btn-primary">
         See Details
       </a>

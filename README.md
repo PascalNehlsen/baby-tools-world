@@ -86,7 +86,7 @@ Gunicorn is a Python WSGI HTTP server that can be used to serve the application 
 1. **Run the Application**:
     Use the following command to start the application with Gunicorn:
     ```bash
-    gunicorn --bind 0.0.0.0:8000 baby_tool_world.wsgi:application
+    gunicorn --bind 0.0.0.0:8000 btw_app.wsgi:application
     ```
 
 2. **Configuration Options**:
@@ -112,7 +112,7 @@ Waitress is a production-quality WSGI server for Python applications, designed t
 2. **Run the Application**:
     Use the following command to start the application with `waitress`:
     ```bash
-    waitress-serve --port=8000 baby_tool_world.wsgi:application
+    waitress-serve --port=8000 btw_app.wsgi:application
     ```
 
 3. **Configuration Options**:
@@ -124,3 +124,15 @@ Waitress is a production-quality WSGI server for Python applications, designed t
     Visit `http://localhost:8000` to ensure the application is running with Waitress.
 
 Waitress provides a lightweight and reliable option for serving your Django application in production.
+
+### Seeding the application with data
+
+This section will guide you through the process of providing an initial seed to the application.
+
+To initially seed the application you can run the management command `seed_db` to fill the database with some categories and testing products.
+
+In order to run that comand go the the directory, where your `manage.py` file is stored and run the following command:
+
+```bash
+python manage.py seed_db
+```
