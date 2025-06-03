@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from products.models import Category
 
+
 class CategoryTestCase(TestCase):
 
     @classmethod
@@ -11,11 +12,9 @@ class CategoryTestCase(TestCase):
         self.test_category_slug = "test-category"
         self.test_category_description = "This is a test category description."
 
-
     def setUp(self):
         # Ensure there are no categories in the db.
         Category.objects.all().delete()
-        
 
     def test_successful_category_creation_without_description(self):
         # Test the creation of a category
@@ -30,7 +29,6 @@ class CategoryTestCase(TestCase):
         self.assertIsNotNone(Category.objects.first().created_at)  # Ensure created_at is set
         self.assertIsNotNone(Category.objects.first().updated_at)  # Ensure updated_at is set
 
-
     def test_successful_category_creation_with_description(self):
         # Test the creation of a category with a description
         category = Category.objects.create(
@@ -44,7 +42,6 @@ class CategoryTestCase(TestCase):
         self.assertTrue(Category.objects.filter(name=self.test_category_name).exists())  # Ensure name is unique
         self.assertTrue(Category.objects.filter(slug=self.test_category_slug).exists())  # Ensure slug is unique
 
-
     def test_failure_category_creation_without_name(self):
         # Test the failure of category creation without a name
         with self.assertRaises(Exception):
@@ -53,7 +50,6 @@ class CategoryTestCase(TestCase):
             category.save()
 
         self.assertEqual(Category.objects.count(), 0)
-
 
     def test_failure_category_creation_without_slug(self):
         # Test the failure of category creation without a slug
@@ -64,7 +60,6 @@ class CategoryTestCase(TestCase):
 
         self.assertEqual(Category.objects.count(), 0)
 
-
     def test_failure_category_creation_with_duplicate_name(self):
         Category.objects.create(name=self.test_category_name, slug=self.test_category_slug)
         with self.assertRaises(Exception):
@@ -73,21 +68,25 @@ class CategoryTestCase(TestCase):
             duplicate_category.save()
         self.assertEqual(Category.objects.count(), 1)  # Ensure only one category exists
 
-
     def test_failure_category_creation_with_duplicate_slug(self):
-        Category.objects.create(name=self.test_category_name, slug=self.test_category_slug)
+        Category.objects.create(
+            name=self.test_category_name,
+            slug=self.test_category_slug
+        )
         with self.assertRaises(Exception):
-            duplicate_category = Category(name="Unique Name", slug=self.test_category_slug)
+            duplicate_category = Category(
+                name="Unique Name",
+                slug=self.test_category_slug
+            )
             duplicate_category.full_clean()
             duplicate_category.save()
-        self.assertEqual(Category.objects.count(), 1)  # Ensure only one category exists
-
+        # Ensure only one category exists
+        self.assertEqual(Category.objects.count(), 1)
 
     def test_category_string_representation(self):
         category = Category.objects.create(
             name=self.test_category_name,
             slug=self.test_category_slug
         )
-        self.assertEqual(str(category), self.test_category_name)  # Ensure __str__ method works correctly
-
-
+        # Ensure __str__ method works correctly
+        self.assertEqual(str(category), self.test_category_name)

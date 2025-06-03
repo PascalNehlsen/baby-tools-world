@@ -4,6 +4,7 @@ from django.test import TestCase
 
 from products.models import Product, Category
 
+
 class ProductTestCase(TestCase):
 
     @classmethod
@@ -31,11 +32,15 @@ class ProductTestCase(TestCase):
         product.full_clean()
         self.assertEqual(Product.objects.count(), 1)
         self.assertEqual(Product.objects.first().name, self.test_product_name)
-        self.assertEqual(Product.objects.first().description, self.test_product_description)
-        self.assertEqual(Product.objects.first().price, self.test_product_price)
+        self.assertEqual(
+            Product.objects.first().description, self.test_product_description)
+        self.assertEqual(
+            Product.objects.first().price, self.test_product_price)
         self.assertEqual(Product.objects.first().category, self.test_category)
-        self.assertIsNotNone(Product.objects.first().created_at)  # Ensure created_at is set
-        self.assertIsNotNone(Product.objects.first().updated_at)  # Ensure updated_at is set
+        # Ensure created_at is set
+        self.assertIsNotNone(Product.objects.first().created_at)
+        # Ensure updated_at is set
+        self.assertIsNotNone(Product.objects.first().updated_at)
 
     def test_product_category_relationship(self):
         # Test the relationship between product and category
@@ -46,7 +51,9 @@ class ProductTestCase(TestCase):
         )
         product.full_clean()
         self.assertEqual(product.category.name, self.test_category.name)
-        self.assertTrue(Category.objects.filter(name=product.category.name).exists())
+        self.assertTrue(
+            Category.objects.filter(name=product.category.name).exists()
+        )
 
     def test_failure_product_creation_without_name(self):
         # Test the failure of product creation without a name
@@ -85,9 +92,9 @@ class ProductTestCase(TestCase):
             product.save()
         self.assertEqual(Product.objects.count(), 0)
 
-    
     def test_failure_product_creation_with_too_high_price(self):
-        # Test the failure of product creation with a price exceeding max_digits
+        # Test the failure of product creation
+        # with a price exceeding max_digits
         with self.assertRaises(Exception):
             product = Product(
                 name=self.test_product_name,
@@ -99,7 +106,6 @@ class ProductTestCase(TestCase):
             product.save()
         self.assertEqual(Product.objects.count(), 0)
 
-
     def test_product_string_representation(self):
         # Test the string representation of a product
         product = Product.objects.create(
@@ -108,6 +114,6 @@ class ProductTestCase(TestCase):
             category=self.test_category
         )
         self.assertEqual(
-            str(product), 
+            str(product),
             self.test_product_name
         )
