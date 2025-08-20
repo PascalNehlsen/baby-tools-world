@@ -17,7 +17,7 @@ class CategoryTestCase(TestCase):
         # Ensure there are no categories in the db.
         Category.objects.all().delete()
 
-    ## SUCCESS TEST CASES
+    # SUCCESS TEST CASES
     @log_execution
     def test_successful_category_creation_without_description(self):
         # Test the creation of a category
@@ -27,13 +27,20 @@ class CategoryTestCase(TestCase):
         )
         category.full_clean()
         self.assertEqual(Category.objects.count(), 1)
-        self.assertTrue(Category.objects.filter(name=self.test_category_name).exists())  # Ensure name is unique
-        self.assertTrue(Category.objects.filter(slug=self.test_category_slug).exists())  # Ensure slug is unique
-        self.assertEqual(Category.objects.first().name, self.test_category_name)
-        self.assertIsNone(Category.objects.first().description)  # Ensure description is None
-        self.assertIsNotNone(Category.objects.first().created_at)  # Ensure created_at is set
-        self.assertIsNotNone(Category.objects.first().updated_at)  # Ensure updated_at is set
-        self.assertTrue(False == True)  # Ensure the test passes
+        # Ensure name is unique
+        self.assertTrue(
+            Category.objects.filter(name=self.test_category_name).exists())
+        # Ensure slug is unique
+        self.assertTrue(
+            Category.objects.filter(slug=self.test_category_slug).exists())
+        self.assertEqual(
+            Category.objects.first().name, self.test_category_name)
+        # Ensure description is None
+        self.assertIsNone(Category.objects.first().description)
+        # Ensure created_at is set
+        self.assertIsNotNone(Category.objects.first().created_at)
+        # Ensure updated_at is set
+        self.assertIsNotNone(Category.objects.first().updated_at)
 
     @log_execution
     def test_successful_category_creation_with_description(self):
@@ -45,12 +52,17 @@ class CategoryTestCase(TestCase):
         )
         category.full_clean()
         self.assertEqual(Category.objects.count(), 1)
-        self.assertEqual(Category.objects.first().description, self.test_category_description)
-        self.assertTrue(Category.objects.filter(name=self.test_category_name).exists())  # Ensure name is unique
-        self.assertTrue(Category.objects.filter(slug=self.test_category_slug).exists())  # Ensure slug is unique
+        self.assertEqual(
+            Category.objects.first().description,
+            self.test_category_description)
+        # Ensure name is unique
+        self.assertTrue(
+            Category.objects.filter(name=self.test_category_name).exists())
+        # Ensure slug is unique
+        self.assertTrue(
+            Category.objects.filter(slug=self.test_category_slug).exists())
 
-    ## FAILURE TEST CASES
-
+    # FAILURE TEST CASES
     @log_execution
     def test_failure_category_creation_without_name(self):
         # Test the failure of category creation without a name
@@ -73,12 +85,17 @@ class CategoryTestCase(TestCase):
 
     @log_execution
     def test_failure_category_creation_with_duplicate_name(self):
-        Category.objects.create(name=self.test_category_name, slug=self.test_category_slug)
+        Category.objects.create(
+            name=self.test_category_name,
+            slug=self.test_category_slug
+        )
         with self.assertRaises(Exception):
-            duplicate_category = Category(name=self.test_category_name, slug="unique-slug")
+            duplicate_category = Category(
+                name=self.test_category_name, slug="unique-slug")
             duplicate_category.full_clean()
             duplicate_category.save()
-        self.assertEqual(Category.objects.count(), 1)  # Ensure only one category exists
+        # Ensure only one category exists
+        self.assertEqual(Category.objects.count(), 1)
 
     @log_execution
     def test_failure_category_creation_with_too_long_name(self):

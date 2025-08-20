@@ -3,6 +3,9 @@
 This repository contains the source code of the 'Baby Tools World' which is a simple full stack shop application written in Python using Django 5.
 The project was developed for educational purposes only and therefore has no claim to feature completeness, or only minimal claims regarding application security, user experience, or design.
 
+> [!NOTE]
+> This project assumes you already know the python programming language
+
 ## Prerequisites
 
 In order to seamlessly interact with the repository and the software it contains you need to following tools preinstalled:
@@ -67,7 +70,9 @@ To configure the project, follow these steps:
 
 This project contains tests for the corresponding apps in the respective packages.
 Tests in Django can either be located in a `tests.py` file within a django-app, or you could also have a module named `tests` (essentially a folder with an `__init__.py` file).
-The django testrunner will by default discover tests by finding all python files that contain the word `test` in their name, e.g. `test.py`, `test_model.py`, or similar.
+
+> [!TIP]
+> The django testrunner will by default discover tests by finding all python files that contain the word `test` in their name, e.g. `test.py`, `test_model.py`, or similar.
 
 Example Structure:
 
@@ -82,96 +87,13 @@ baby-tool-world/src/products
       └───test_category_model.py <-- this is a test file too
 ```
 
-#### Important terms
-
-| **Term**  | **Description**                                                                   | **Example (products app)**                                                                                                                                        |
-| :-------- | :-------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Assertion | A statement in a test that checks if a condition is true; if not, the test fails. | `self.assertEqual(product.name, "Toy Car")` in `test_product_model.py`                                                                                            |
-| Coverage  | A metric indicating how much of the codebase is exercised by tests.               | Using `coverage run manage.py test` to measure tests in `products/`. <br/>**NOTE:** the tests in a gitlab-ci pipeline run with coverage reporting enabled for MRs |
-| Test      | A single unit of code that checks a specific behavior or functionality.           | `def test_product_str(self): ...` in `test_product_model.py`                                                                                                      |
-| TestCase  | A class that groups related tests and provides setup/teardown logic.              | `class ProductModelTestCase(TestCase): ...` in `test_product_model.py`                                                                                            |
-| TestSuite | A collection of multiple test cases or tests that are run together.               | Django automatically discovers and runs all tests in `products/tests/` as a suite.                                                                                |
-
-
 #### Running tests
 
 To run the tests with the `django testrunner` you can use the following command:
 
 - `python manage.py test`, you need to run this in the folder where `manage.py` lives -> `src`
 
-**Full command example**
-
-This example assumes you have activated your virtual env and already have installed the project dependencies, see [here](#quickstart)
-
-```bash
-cd src
-python manage.py test
-```
-
-<details><summary><b>Run tests with coverage (locally)</b> (expand to see more info)</summary>
-
-```bash
-cd src
-coverage run manage.py test
-# display the collected coverage information
-coverage report -m --skip-covered --skip-empty
-```
-
-In order to prevent the runner from evaluating unnecessary files or files that do not contain tested code you can add the `--omit` option alongside with a pattern.
-
-**Example for omitting manage.py or test-files**
-
-```bash
-cd src
-coverage run --omit=manage.py,test*.py manage.py test
-# display the collected coverage information
-coverage report -m --skip-covered --skip-empty
-```
-
-</details>
-
-#### Annotation Tests with Execution Information
-
-To make your test output more readable and informative, you can use the `@log_execution` decorator provided in `btw_app/utils.py`. This decorator prints colored logs to the console, showing timestamps (in yellow), test names and status (in blue/green/red), and execution duration.
-
-1. **Import the Decorator:**
-
-   At the top of your test file, add:
-   ```python
-   from btw_app.utils import log_execution
-   ```
-
-2. **Apply the Decorator to Your Test Methods:**
-
-   Add `@log_execution` above any test method you want to log:
-   ```python
-   class MyTestCase(TestCase):
-
-       @log_execution
-       def test_some_feature(self):
-           # Your test code here
-           self.assertTrue(True)
-   ```
-
-3. **Run Your Tests:**
-
-   Execute your tests as usual:
-   ```bash
-   python manage.py test
-   ```
-
-   You will see colored output in your terminal, with timestamps in yellow and test information in blue.
-
-#### Example Output
-
-```
-[2025/07/23 14:32:10] Commencing Test (my_app.tests)
-Running test function test_some_feature
-[2025/07/23 14:32:10]Ran function in 0.0021 seconds - ✅ Success
---------------------------------------------------------------------
-```
-
-This helps you quickly identify when each test started and finished, how long it took, and whether it passed or failed.
+For more information about testing, refer to the testing documentation in this repository, see [here](./docs/testing.md)
 
 ### Running with a WSGI Server
 
@@ -189,51 +111,7 @@ the application can handle HTTP requests efficiently and reliably in a scalable 
 > See the following [quote](https://docs.gunicorn.org/en/stable/index.html) from the official gunicorn website:
 >> Gunicorn ‘Green Unicorn’ is a Python WSGI HTTP Server for UNIX.
 
-#### Running with Gunicorn
-
-Gunicorn is a Python WSGI HTTP server that can be used to serve the application in a production-like environment.
-
-1. **Run the Application**:
-    Use the following command to start the application with Gunicorn:
-    ```bash
-    gunicorn --bind 0.0.0.0:8000 btw_app.wsgi:application
-    ```
-
-2. **Configuration Options**:
-    You can customize Gunicorn with additional options, such as:
-    - `--workers`: Number of worker processes (e.g., `--workers 3`).
-    - `--timeout`: Request timeout in seconds (e.g., `--timeout 30`).
-
-3. **Verify the Application**:
-    Visit `http://localhost:8000` to ensure the application is running with Gunicorn.
-
-By using Gunicorn, you can serve the application efficiently in a production-like setup.
-
-#### Waitress
-
-Waitress is a production-quality WSGI server for Python applications, designed to be simple and robust.
-
-1. **Install Waitress**:
-    If not already installed, first install Waitress using pip:
-    ```bash
-    pip install waitress
-    ```
-
-2. **Run the Application**:
-    Use the following command to start the application with `waitress`:
-    ```bash
-    waitress-serve --port=8000 btw_app.wsgi:application
-    ```
-
-3. **Configuration Options**:
-    You can customize Waitress with additional options, such as:
-    - `--host`: Specify the host to bind to (e.g., `--host=0.0.0.0`).
-    - `--threads`: Set the number of threads to use (e.g., `--threads=4`).
-
-4. **Verify the Application**:
-    Visit `http://localhost:8000` to ensure the application is running with Waitress.
-
-Waitress provides a lightweight and reliable option for serving your Django application in production.
+For more information about WSGI and its configuration, see the [wsgi documentation](./docs/wsgi.md).
 
 ### Seeding the application with data
 
