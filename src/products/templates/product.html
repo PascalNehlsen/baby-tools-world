@@ -12,7 +12,11 @@
         {{product.price}} &euro;
       </div>
       <p class="card-text mb-auto">
-        {{product.description}}
+        {% if product.description %}
+        {{product.description }}
+        {% else %}
+        <span class="fst-italic">No description provided</span>
+        {% endif %}
       </p>
       <div class="btn btn-primary btn-center">
         Buy now
