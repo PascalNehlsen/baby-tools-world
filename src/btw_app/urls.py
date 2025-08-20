@@ -25,6 +25,9 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    # ... the rest of your URLconf goes here ...
-    urlpatterns = urlpatterns + static(
-        settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(
+        settings.STATIC_URL, document_root=settings.STATIC_ROOT
+    )
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )

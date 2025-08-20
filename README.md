@@ -84,13 +84,13 @@ baby-tool-world/src/products
 
 #### Important terms
 
-| **Term**    | **Description** | **Example (products app)** |
-|:---| :--- | :--- |
-| Assertion | A statement in a test that checks if a condition is true; if not, the test fails. | `self.assertEqual(product.name, "Toy Car")` in `test_product_model.py` |
-| Coverage | A metric indicating how much of the codebase is exercised by tests. | Using `coverage run manage.py test` to measure tests in `products/`. <br/>**NOTE:** the tests in a gitlab-ci pipeline run with coverage reporting enabled for MRs |
-| Test | A single unit of code that checks a specific behavior or functionality. | `def test_product_str(self): ...` in `test_product_model.py` |
-| TestCase | A class that groups related tests and provides setup/teardown logic. | `class ProductModelTestCase(TestCase): ...` in `test_product_model.py` |
-| TestSuite | A collection of multiple test cases or tests that are run together. | Django automatically discovers and runs all tests in `products/tests/` as a suite. |
+| **Term**  | **Description**                                                                   | **Example (products app)**                                                                                                                                        |
+| :-------- | :-------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Assertion | A statement in a test that checks if a condition is true; if not, the test fails. | `self.assertEqual(product.name, "Toy Car")` in `test_product_model.py`                                                                                            |
+| Coverage  | A metric indicating how much of the codebase is exercised by tests.               | Using `coverage run manage.py test` to measure tests in `products/`. <br/>**NOTE:** the tests in a gitlab-ci pipeline run with coverage reporting enabled for MRs |
+| Test      | A single unit of code that checks a specific behavior or functionality.           | `def test_product_str(self): ...` in `test_product_model.py`                                                                                                      |
+| TestCase  | A class that groups related tests and provides setup/teardown logic.              | `class ProductModelTestCase(TestCase): ...` in `test_product_model.py`                                                                                            |
+| TestSuite | A collection of multiple test cases or tests that are run together.               | Django automatically discovers and runs all tests in `products/tests/` as a suite.                                                                                |
 
 
 #### Running tests
@@ -130,6 +130,48 @@ coverage report -m --skip-covered --skip-empty
 
 </details>
 
+#### Annotation Tests with Execution Information
+
+To make your test output more readable and informative, you can use the `@log_execution` decorator provided in `btw_app/utils.py`. This decorator prints colored logs to the console, showing timestamps (in yellow), test names and status (in blue/green/red), and execution duration.
+
+1. **Import the Decorator:**
+
+   At the top of your test file, add:
+   ```python
+   from btw_app.utils import log_execution
+   ```
+
+2. **Apply the Decorator to Your Test Methods:**
+
+   Add `@log_execution` above any test method you want to log:
+   ```python
+   class MyTestCase(TestCase):
+
+       @log_execution
+       def test_some_feature(self):
+           # Your test code here
+           self.assertTrue(True)
+   ```
+
+3. **Run Your Tests:**
+
+   Execute your tests as usual:
+   ```bash
+   python manage.py test
+   ```
+
+   You will see colored output in your terminal, with timestamps in yellow and test information in blue.
+
+#### Example Output
+
+```
+[2025/07/23 14:32:10] Commencing Test (my_app.tests)
+Running test function test_some_feature
+[2025/07/23 14:32:10]Ran function in 0.0021 seconds - ✅ Success
+--------------------------------------------------------------------
+```
+
+This helps you quickly identify when each test started and finished, how long it took, and whether it passed or failed.
 
 ### Running with a WSGI Server
 

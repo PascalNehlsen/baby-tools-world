@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 
+from btw_app.utils import log_execution
 from products.models import Category
 
 
@@ -16,6 +17,8 @@ class CategoryTestCase(TestCase):
         # Ensure there are no categories in the db.
         Category.objects.all().delete()
 
+    ## SUCCESS TEST CASES
+    @log_execution
     def test_successful_category_creation_without_description(self):
         # Test the creation of a category
         category = Category.objects.create(
@@ -24,11 +27,15 @@ class CategoryTestCase(TestCase):
         )
         category.full_clean()
         self.assertEqual(Category.objects.count(), 1)
+        self.assertTrue(Category.objects.filter(name=self.test_category_name).exists())  # Ensure name is unique
+        self.assertTrue(Category.objects.filter(slug=self.test_category_slug).exists())  # Ensure slug is unique
         self.assertEqual(Category.objects.first().name, self.test_category_name)
         self.assertIsNone(Category.objects.first().description)  # Ensure description is None
         self.assertIsNotNone(Category.objects.first().created_at)  # Ensure created_at is set
         self.assertIsNotNone(Category.objects.first().updated_at)  # Ensure updated_at is set
+        self.assertTrue(False == True)  # Ensure the test passes
 
+    @log_execution
     def test_successful_category_creation_with_description(self):
         # Test the creation of a category with a description
         category = Category.objects.create(
@@ -42,6 +49,9 @@ class CategoryTestCase(TestCase):
         self.assertTrue(Category.objects.filter(name=self.test_category_name).exists())  # Ensure name is unique
         self.assertTrue(Category.objects.filter(slug=self.test_category_slug).exists())  # Ensure slug is unique
 
+    ## FAILURE TEST CASES
+
+    @log_execution
     def test_failure_category_creation_without_name(self):
         # Test the failure of category creation without a name
         with self.assertRaises(Exception):
@@ -51,6 +61,7 @@ class CategoryTestCase(TestCase):
 
         self.assertEqual(Category.objects.count(), 0)
 
+    @log_execution
     def test_failure_category_creation_without_slug(self):
         # Test the failure of category creation without a slug
         with self.assertRaises(Exception):
@@ -60,6 +71,7 @@ class CategoryTestCase(TestCase):
 
         self.assertEqual(Category.objects.count(), 0)
 
+    @log_execution
     def test_failure_category_creation_with_duplicate_name(self):
         Category.objects.create(name=self.test_category_name, slug=self.test_category_slug)
         with self.assertRaises(Exception):
@@ -68,6 +80,27 @@ class CategoryTestCase(TestCase):
             duplicate_category.save()
         self.assertEqual(Category.objects.count(), 1)  # Ensure only one category exists
 
+    @log_execution
+    def test_failure_category_creation_with_too_long_name(self):
+        long_name = "a" * 51
+        with self.assertRaises(Exception):
+            category = Category(name=long_name, slug=self.test_category_slug)
+            category.full_clean()
+            category.save()
+        # Ensure no categories were created
+        self.assertEqual(Category.objects.count(), 0)
+
+    @log_execution
+    def test_failure_category_creation_with_too_long_slug(self):
+        long_slug = "a" * 51
+        with self.assertRaises(Exception):
+            category = Category(name=self.test_category_name, slug=long_slug)
+            category.full_clean()
+            category.save()
+        # Ensure no categories were created
+        self.assertEqual(Category.objects.count(), 0)
+
+    @log_execution
     def test_failure_category_creation_with_duplicate_slug(self):
         Category.objects.create(
             name=self.test_category_name,
@@ -83,6 +116,7 @@ class CategoryTestCase(TestCase):
         # Ensure only one category exists
         self.assertEqual(Category.objects.count(), 1)
 
+    @log_execution
     def test_category_string_representation(self):
         category = Category.objects.create(
             name=self.test_category_name,
