@@ -124,3 +124,35 @@ In order to run that comand go the the directory, where your `manage.py` file is
 ```bash
 python manage.py seed_db
 ```
+
+### Containerization
+
+This section should give a brief overview about the containerization of the django app.
+
+> [!NOTE]
+> This guide assumes you are using the docker engine, docker desktop, or anything similar.
+> For other tools that are compliant with the OCI spec the commands will be slightly different, but more or less the same.
+
+#### Build an image
+
+You can build the container image by running the following command in your terminal:
+
+```bash
+# use -t to provide a tag together with the image name
+# -> baby-tools-world is the image name, 'local' is the tag
+docker build -t baby-tools-world:local .
+```
+
+#### Run a container
+
+To start a container based on the image, use the following command in your terminal:
+
+```bash
+docker run --rm -it -p 8000:8000 baby-tools-world:local
+```
+
+In order to overwrite predefined environment configuration in the app, you can specify an `.env` file by adding the option to the command like below:
+
+```bash
+docker run --rm -it -p 8000:8000 --env-file .env baby-tools-world:local
+```
