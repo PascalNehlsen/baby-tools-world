@@ -38,7 +38,7 @@ jobs:
         pip install coverage
         coverage run --branch --omit=manage.py,test*.py manage.py test
         # generate coverage report
-        coverage report -m --skip-covered --skip-empty
+        coverage report -m --skip-covered --skip-empty --fail-under 69
         # write report to xml data
         coverage xml --skip-empty -o coverage.xml
     - name: Get Cover 
